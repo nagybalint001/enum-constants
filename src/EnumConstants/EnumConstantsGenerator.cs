@@ -22,7 +22,7 @@ namespace EnumConstants
         public AutoConstantsAttribute(Type enumType, string valuePrefix = null)
         {
             EnumType = enumType;
-            ValuePrefix = prefix;
+            ValuePrefix = valuePrefix;
         }
 
         public Type EnumType { get; set; }
@@ -113,11 +113,6 @@ namespace EnumConstants
             if (string.IsNullOrEmpty(valuePrefix) && attributeData.NamedArguments.Any(kv => kv.Key == "ValuePrefix"))
             {
                 valuePrefix = attributeData.NamedArguments.SingleOrDefault(kv => kv.Key == "ValuePrefix").Value.Value as string;
-            }
-
-            if (!string.IsNullOrEmpty(valuePrefix))
-            {
-                valuePrefix += "_";
             }
 
             foreach (var enumValue in enumType.GetMembers().Where(m => !m.IsImplicitlyDeclared))

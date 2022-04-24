@@ -7,7 +7,7 @@
 		<Description>Generating constants from enum values.</Description>
 		<Copyright>Copyright (c) 2022 Bálint Nagy</Copyright>
 		<PackageProjectUrl>https://github.com/nagybalint001/enum-constants</PackageProjectUrl>
-		<!--<PackageIcon>resx-icon.png</PackageIcon>-->
+		<PackageIcon>icon.png</PackageIcon>
 		<PackageIconUrl />
 		<RepositoryUrl>https://github.com/nagybalint001/enum-constants</RepositoryUrl>
 		<RepositoryType>git</RepositoryType>
@@ -23,7 +23,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<!--<None Include="../resx-icon.png" Pack="true" PackagePath="\" />-->
+		<None Include="../icon.png" Pack="true" PackagePath="\" />
 		<None Include="../../LICENSE" Pack="true" PackagePath="\" />
 		<None Include="../../README.md" Pack="true" PackagePath="\" />
 	</ItemGroup>
