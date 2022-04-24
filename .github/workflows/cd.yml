@@ -33,14 +33,8 @@ jobs:
     - name: Restore dependencies
       run: dotnet restore
 
-    - name: Pack TypedLocalization.Abstraction
-      run: dotnet pack src/TypedLocalization.Abstractions/TypedLocalization.Abstractions.csproj --no-restore
+    - name: Pack EnumConstants
+      run: dotnet pack src/EnumConstants/EnumConstants.csproj --no-restore
 
-    - name: Pack TypedLocalization
-      run: dotnet pack src/TypedLocalization/TypedLocalization.csproj --no-restore
-
-    - name: Push TypedLocalization.Abstractions
-      run: dotnet nuget push src/TypedLocalization.Abstractions/**/*.nupkg --api-key ${{ secrets.API_KEY }} --source https://api.nuget.org/v3/index.json
-
-    - name: Push TypedLocalization
-      run: dotnet nuget push src/TypedLocalization/**/*.nupkg --api-key ${{ secrets.API_KEY }} --source https://api.nuget.org/v3/index.json
+    - name: Push EnumConstants
+      run: dotnet nuget push src/EnumConstants/**/*.nupkg --api-key ${{ secrets.API_KEY }} --source https://api.nuget.org/v3/index.json
