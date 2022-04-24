@@ -1,0 +1,59 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.1.32210.238
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{184F4450-C857-427F-A2F0-9BECEC929415}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{7BDE13A4-FD13-4C8A-A5DE-3D3F7B96B242}"
+	ProjectSection(SolutionItems) = preProject
+		.gitignore = .gitignore
+		Directory.Build.props = Directory.Build.props
+		LICENSE = LICENSE
+		README.md = README.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".github", ".github", "{3D14620A-8920-4E58-B9DB-8B091B511244}"
+	ProjectSection(SolutionItems) = preProject
+		.github\GitVersion.yml = .github\GitVersion.yml
+		.github\pull_request_template.md = .github\pull_request_template.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{2466E869-5A78-460F-9770-80B5C77C2A63}"
+	ProjectSection(SolutionItems) = preProject
+		.github\workflows\cd.yml = .github\workflows\cd.yml
+		.github\workflows\ci.yml = .github\workflows\ci.yml
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EnumConstants", "src\EnumConstants\EnumConstants.csproj", "{2174C402-41F6-4ECA-8DB2-4C56DDEA38B3}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EnumConstants.Samples", "src\EnumConstants.Samples\EnumConstants.Samples.csproj", "{A8B501C7-0BB1-40AF-8F7F-DECC3914FA2B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2174C402-41F6-4ECA-8DB2-4C56DDEA38B3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2174C402-41F6-4ECA-8DB2-4C56DDEA38B3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2174C402-41F6-4ECA-8DB2-4C56DDEA38B3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2174C402-41F6-4ECA-8DB2-4C56DDEA38B3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A8B501C7-0BB1-40AF-8F7F-DECC3914FA2B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A8B501C7-0BB1-40AF-8F7F-DECC3914FA2B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A8B501C7-0BB1-40AF-8F7F-DECC3914FA2B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A8B501C7-0BB1-40AF-8F7F-DECC3914FA2B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{3D14620A-8920-4E58-B9DB-8B091B511244} = {7BDE13A4-FD13-4C8A-A5DE-3D3F7B96B242}
+		{2466E869-5A78-460F-9770-80B5C77C2A63} = {3D14620A-8920-4E58-B9DB-8B091B511244}
+		{2174C402-41F6-4ECA-8DB2-4C56DDEA38B3} = {184F4450-C857-427F-A2F0-9BECEC929415}
+		{A8B501C7-0BB1-40AF-8F7F-DECC3914FA2B} = {184F4450-C857-427F-A2F0-9BECEC929415}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {4CB54F67-90DF-4FFB-9FB6-86C75074D052}
+	EndGlobalSection
+EndGlobal

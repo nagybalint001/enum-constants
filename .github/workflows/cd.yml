@@ -1,0 +1,46 @@
+name: publish nuget
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  Publish-NuGet-package:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 6.0.x
+
+    - name: Install GitVersion
+      uses: gittools/actions/gitversion/setup@v0.9.7
+      with:
+        versionSpec: '5.x'
+
+    - name: Determine Version
+      uses: gittools/actions/gitversion/execute@v0.9.7
+      with:
+        useConfigFile: true
+        configFilePath: .github/GitVersion.yml
+
+    - name: Restore dependencies
+      run: dotnet restore
+
+    - name: Pack TypedLocalization.Abstraction
+      run: dotnet pack src/TypedLocalization.Abstractions/TypedLocalization.Abstractions.csproj --no-restore
+
+    - name: Pack TypedLocalization
+      run: dotnet pack src/TypedLocalization/TypedLocalization.csproj --no-restore
+
+    - name: Push TypedLocalization.Abstractions
+      run: dotnet nuget push src/TypedLocalization.Abstractions/**/*.nupkg --api-key ${{ secrets.API_KEY }} --source https://api.nuget.org/v3/index.json
+
+    - name: Push TypedLocalization
+      run: dotnet nuget push src/TypedLocalization/**/*.nupkg --api-key ${{ secrets.API_KEY }} --source https://api.nuget.org/v3/index.json
