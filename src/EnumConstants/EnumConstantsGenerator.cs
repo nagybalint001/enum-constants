@@ -19,14 +19,14 @@ namespace EnumConstants
     [AttributeUsage(AttributeTargets.Class, Inherited = false, AllowMultiple = false)]
     public class AutoConstantsAttribute : Attribute
     {
-        public AutoConstantsAttribute(Type enumType, string prefix = null)
+        public AutoConstantsAttribute(Type enumType, string valuePrefix = null)
         {
             EnumType = enumType;
-            Prefix = prefix;
+            ValuePrefix = prefix;
         }
 
         public Type EnumType { get; set; }
-        public string Prefix { get; set; }
+        public string ValuePrefix { get; set; }
     }
 }";
 
@@ -56,41 +56,75 @@ namespace EnumConstants
         private string ProcessClass(ITypeSymbol classSymbol, INamedTypeSymbol attributeSymbol)
         {
             var sb = new StringBuilder();
-            sb.Append($@"
-namespace {classSymbol.ContainingNamespace}
-{{
-    public partial class {classSymbol.ContainingType.Name}
-    {{
-        public partial class {classSymbol.Name}
-        {{");
 
+            AddNamespaceBeginning(sb, classSymbol);
+            var identationLevel = AddClassBeginnings(sb, classSymbol);
+
+            AddConstantsDefinitions(sb, classSymbol, attributeSymbol, identationLevel + 1);
+
+            AddClassClosings(sb, identationLevel);
+            AddNamespaceClosing(sb);
+            return sb.ToString();
+        }
+
+        private void AddNamespaceBeginning(StringBuilder sb, ITypeSymbol classSymbol)
+        {
+            sb.AppendLine($@"namespace {classSymbol.ContainingNamespace}");
+            sb.AppendLine($@"{{");
+        }
+
+        private void AddNamespaceClosing(StringBuilder sb)
+        {
+            sb.AppendLine($@"}}");
+        }
+
+        private int AddClassBeginnings(StringBuilder sb, ITypeSymbol classSymbol)
+        {
+            if (classSymbol == null)
+                return 0;
+
+            var identationLevel = AddClassBeginnings(sb, classSymbol.ContainingType) + 1;
+
+            sb.Append(new string(' ', identationLevel * 4));
+            sb.AppendLine($@"public partial class {classSymbol.Name}");
+            sb.Append(new string(' ', identationLevel * 4));
+            sb.AppendLine($@"{{");
+
+            return identationLevel;
+        }
+
+        private void AddClassClosings(StringBuilder sb, int identationLevel)
+        {
+            for (int i = identationLevel; i > 0; i--)
+            {
+                sb.Append(new string(' ', i * 4));
+                sb.AppendLine($@"}}");
+            }
+        }
+
+        private void AddConstantsDefinitions(StringBuilder sb, ITypeSymbol classSymbol, INamedTypeSymbol attributeSymbol, int identationLevel)
+        {
             var attributeData = classSymbol.GetAttributes().Single(ad => ad.AttributeClass.Equals(attributeSymbol, SymbolEqualityComparer.Default));
 
             var enumType = attributeData.ConstructorArguments[0].Value as INamedTypeSymbol;
 
-            var prefix = attributeData.ConstructorArguments[1].Value as string;
+            var valuePrefix = attributeData.ConstructorArguments[1].Value as string;
 
-            if (string.IsNullOrEmpty(prefix) && attributeData.NamedArguments.Any(kv => kv.Key == "Prefix"))
+            if (string.IsNullOrEmpty(valuePrefix) && attributeData.NamedArguments.Any(kv => kv.Key == "ValuePrefix"))
             {
-                prefix = attributeData.NamedArguments.SingleOrDefault(kv => kv.Key == "Prefix").Value.Value as string;
+                valuePrefix = attributeData.NamedArguments.SingleOrDefault(kv => kv.Key == "ValuePrefix").Value.Value as string;
             }
 
-            if (!string.IsNullOrEmpty(prefix))
+            if (!string.IsNullOrEmpty(valuePrefix))
             {
-                prefix += "_";
+                valuePrefix += "_";
             }
 
             foreach (var enumValue in enumType.GetMembers().Where(m => !m.IsImplicitlyDeclared))
             {
-                sb.Append($@"
-            public const string {enumValue.Name} = ""{prefix}{enumValue.Name}"";");
+                sb.Append(new string(' ', identationLevel * 4));
+                sb.AppendLine($@"public const string {enumValue.Name} = ""{valuePrefix}{enumValue.Name}"";");
             }
-
-            sb.Append($@"
-        }}
-    }}
-}}");
-            return sb.ToString();
         }
 
         /// <summary>
