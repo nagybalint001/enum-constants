@@ -11,8 +11,7 @@ namespace EnumConstants
     [Generator]
     public class EnumConstantsGenerator : ISourceGenerator
     {
-        private const string attributeSource = @"
-using System;
+        private const string attributeSource = @"using System;
 
 namespace EnumConstants
 {
@@ -21,12 +20,8 @@ namespace EnumConstants
     {
         public AutoConstantsAttribute(Type enumType, string valuePrefix = null)
         {
-            EnumType = enumType;
-            ValuePrefix = valuePrefix;
+            // intentionally empty, only used for code generator
         }
-
-        public Type EnumType { get; set; }
-        public string ValuePrefix { get; set; }
     }
 }";
 
@@ -107,13 +102,7 @@ namespace EnumConstants
             var attributeData = classSymbol.GetAttributes().Single(ad => ad.AttributeClass.Equals(attributeSymbol, SymbolEqualityComparer.Default));
 
             var enumType = attributeData.ConstructorArguments[0].Value as INamedTypeSymbol;
-
             var valuePrefix = attributeData.ConstructorArguments[1].Value as string;
-
-            if (string.IsNullOrEmpty(valuePrefix) && attributeData.NamedArguments.Any(kv => kv.Key == "ValuePrefix"))
-            {
-                valuePrefix = attributeData.NamedArguments.SingleOrDefault(kv => kv.Key == "ValuePrefix").Value.Value as string;
-            }
 
             foreach (var enumValue in enumType.GetMembers().Where(m => !m.IsImplicitlyDeclared))
             {
