@@ -15,7 +15,7 @@
         public void Foo()
         {
             var foo = Sample.Value2; // Value2
-            var bar = Sample.SubClass.Value1; // Asd_Value1
+            var bar = Sample.SubClass.Value1; // AsdValue1
             var baz = Sample.SubClass.SubSubClass.Value2; // Value2
         }
     }
